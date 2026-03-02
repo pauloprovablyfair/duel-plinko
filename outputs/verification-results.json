@@ -1,0 +1,1615 @@
+{
+  "runAt": "2026-03-02T18:08:42.630Z",
+  "dataset": {
+    "bets": 7600,
+    "seeds": 152,
+    "phaseA": 5400,
+    "phaseB": 2000,
+    "phaseC": 200
+  },
+  "verdict": "PROVABLY FAIR — Full Pass",
+  "summary": {
+    "passed": 19,
+    "hardFails": 0,
+    "flags": 0
+  },
+  "results": [
+    {
+      "step": 1,
+      "name": "Seed Hash Integrity",
+      "ecRefs": [
+        "EC-1"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "All 152 revealed seeds: SHA-256(hexDecode(serverSeed)) = serverSeedHashed",
+      "failures": [],
+      "details": {
+        "checked": 152
+      }
+    },
+    {
+      "step": 2,
+      "name": "Commitment Linkage",
+      "ecRefs": [
+        "EC-2"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "All 3 pre-capture commitments match first bet response hash",
+      "failures": [],
+      "details": {
+        "phaseA": {
+          "commitment": "19935b7406293bd6cdff...",
+          "firstBetHash": "19935b7406293bd6cdff...",
+          "match": true
+        },
+        "phaseB": {
+          "commitment": "9dcb3d30d0f1c98acf83...",
+          "firstBetHash": "9dcb3d30d0f1c98acf83...",
+          "match": true
+        },
+        "phaseC": {
+          "commitment": "6e5aed8c0b9049765464...",
+          "firstBetHash": "6e5aed8c0b9049765464...",
+          "match": true
+        }
+      }
+    },
+    {
+      "step": 3,
+      "name": "Hash Consistency Within Epoch",
+      "ecRefs": [
+        "EC-26"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "All 152 epochs: server_seed_hashed identical across all 50 bets",
+      "failures": [],
+      "details": {
+        "epochs": 152
+      }
+    },
+    {
+      "step": 4,
+      "name": "Nonce Audit",
+      "ecRefs": [
+        "EC-2",
+        "EC-3",
+        "EC-4",
+        "EC-5"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "152 epochs: nonces sequential, single client_seed. 5 epochs have capture-retry pattern (informational — slot recomputation passes for all).",
+      "failures": [],
+      "details": {
+        "epochsChecked": 152,
+        "captureArtifacts": [
+          "Epoch 645b424d5b995f54: capture-retry pattern — nonce 43 missed (server placed 51 bets); slot recomputation passes",
+          "Epoch 91b453380f29025f: capture-retry pattern — nonce 10 missed (server placed 51 bets); slot recomputation passes",
+          "Epoch 358dd868189fb265: capture-retry pattern — nonce 45 missed (server placed 51 bets); slot recomputation passes",
+          "Epoch e1703ae848174c7a: capture-retry pattern — nonce 3 missed (server placed 51 bets); slot recomputation passes",
+          "Epoch d607aad19bd588aa: capture-retry pattern — nonce 44 missed (server placed 51 bets); slot recomputation passes"
+        ]
+      }
+    },
+    {
+      "step": 5,
+      "name": "Slot Recomputation (RNG + drand absent)",
+      "ecRefs": [
+        "EC-6",
+        "EC-7"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "All 7600 bets with revealed seeds: HMAC-SHA256 recompute matches final_slot. drand confirmed absent from RNG.",
+      "failures": [],
+      "details": {
+        "checked": 7600,
+        "skipped": 0
+      }
+    },
+    {
+      "step": 6,
+      "name": "Client Seed Influence",
+      "ecRefs": [
+        "EC-27"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "Wrong client seed changed 6409/7600 slots (84.3%) across 152 epochs",
+      "failures": [],
+      "details": {
+        "epochsTested": 152,
+        "totalChecked": 7600,
+        "totalChanged": 6409,
+        "pctChanged": "84.3%",
+        "epochResults": [
+          {
+            "hash": "19935b7406293bd6cdff...",
+            "changed": 40,
+            "total": 50
+          },
+          {
+            "hash": "c8b3cd4a9fdee8fbf614...",
+            "changed": 42,
+            "total": 50
+          },
+          {
+            "hash": "857bbe7afe3d4729c2db...",
+            "changed": 39,
+            "total": 50
+          },
+          {
+            "hash": "fc57ebcace6c0d9a49c8...",
+            "changed": 47,
+            "total": 50
+          },
+          {
+            "hash": "8800f9822eb9da48ee78...",
+            "changed": 45,
+            "total": 50
+          },
+          {
+            "hash": "9ebe1a6c0040a45d1438...",
+            "changed": 40,
+            "total": 50
+          },
+          {
+            "hash": "029702d8545fc312bf5f...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "f0d16cd5e8a2adc9dc90...",
+            "changed": 41,
+            "total": 50
+          },
+          {
+            "hash": "b7a4dae365616e800562...",
+            "changed": 41,
+            "total": 50
+          },
+          {
+            "hash": "66c5ff20699ce41c0f99...",
+            "changed": 36,
+            "total": 50
+          },
+          {
+            "hash": "e39800b5839f5fd08594...",
+            "changed": 43,
+            "total": 50
+          },
+          {
+            "hash": "4266acc350529bd9c04a...",
+            "changed": 42,
+            "total": 50
+          },
+          {
+            "hash": "4aa10748dd80b526defc...",
+            "changed": 39,
+            "total": 50
+          },
+          {
+            "hash": "07f350ac6c478e2ddb3d...",
+            "changed": 43,
+            "total": 50
+          },
+          {
+            "hash": "9d8b3bc20941f9bb0966...",
+            "changed": 39,
+            "total": 50
+          },
+          {
+            "hash": "79cf8e65488bc579f1f7...",
+            "changed": 38,
+            "total": 50
+          },
+          {
+            "hash": "dcbb9d9298a96efa045b...",
+            "changed": 46,
+            "total": 50
+          },
+          {
+            "hash": "ea9c554d61dd144797a6...",
+            "changed": 49,
+            "total": 50
+          },
+          {
+            "hash": "a09a1d8b3078d85f972a...",
+            "changed": 41,
+            "total": 50
+          },
+          {
+            "hash": "645b424d5b995f54f771...",
+            "changed": 43,
+            "total": 50
+          },
+          {
+            "hash": "1214b14219c4d89855d0...",
+            "changed": 45,
+            "total": 50
+          },
+          {
+            "hash": "a7df298857503c823841...",
+            "changed": 43,
+            "total": 50
+          },
+          {
+            "hash": "9849efac4e4c1443fa24...",
+            "changed": 45,
+            "total": 50
+          },
+          {
+            "hash": "12ece612766dbbf34a05...",
+            "changed": 42,
+            "total": 50
+          },
+          {
+            "hash": "1134d9bd720a11427f9a...",
+            "changed": 41,
+            "total": 50
+          },
+          {
+            "hash": "6915158b96a6d0f9fffd...",
+            "changed": 39,
+            "total": 50
+          },
+          {
+            "hash": "1dcf0ad3e9f8b7c5a952...",
+            "changed": 42,
+            "total": 50
+          },
+          {
+            "hash": "575c60585e7123ad32f9...",
+            "changed": 40,
+            "total": 50
+          },
+          {
+            "hash": "72e88ac5968f9d6f5d2b...",
+            "changed": 41,
+            "total": 50
+          },
+          {
+            "hash": "c43a3151c095ebebf9da...",
+            "changed": 47,
+            "total": 50
+          },
+          {
+            "hash": "774f645b3dc63ae5d4fe...",
+            "changed": 42,
+            "total": 50
+          },
+          {
+            "hash": "a7b9895a441330c5e55b...",
+            "changed": 39,
+            "total": 50
+          },
+          {
+            "hash": "24e1a5510167bc475aca...",
+            "changed": 47,
+            "total": 50
+          },
+          {
+            "hash": "7e591e983ac3c09effef...",
+            "changed": 38,
+            "total": 50
+          },
+          {
+            "hash": "6d1ac02e73382784ca69...",
+            "changed": 40,
+            "total": 50
+          },
+          {
+            "hash": "d3858124b64e7626b2a3...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "75d99ab3dcf0caa332a6...",
+            "changed": 40,
+            "total": 50
+          },
+          {
+            "hash": "eea5fccbd1dbc60fa4c3...",
+            "changed": 38,
+            "total": 50
+          },
+          {
+            "hash": "0e2bab9a3874f432a794...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "6128cdd110dc1731c795...",
+            "changed": 42,
+            "total": 50
+          },
+          {
+            "hash": "ed42b9b055b7561c8459...",
+            "changed": 38,
+            "total": 50
+          },
+          {
+            "hash": "be10ff804a792f9e33dd...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "8205db3960012b33d5ce...",
+            "changed": 43,
+            "total": 50
+          },
+          {
+            "hash": "dc24f5755c6a1698bcdc...",
+            "changed": 40,
+            "total": 50
+          },
+          {
+            "hash": "3650aed8a9e23c4dea00...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "6ccc777cf08f205d6ded...",
+            "changed": 40,
+            "total": 50
+          },
+          {
+            "hash": "c86f8ba6dbbc56f8b59a...",
+            "changed": 46,
+            "total": 50
+          },
+          {
+            "hash": "787cc7898dddfd1f12f4...",
+            "changed": 39,
+            "total": 50
+          },
+          {
+            "hash": "1833aa8883f7a4565f33...",
+            "changed": 39,
+            "total": 50
+          },
+          {
+            "hash": "ee54e7485e3fff12ad01...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "6fd7edb2d51f95ab59c9...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "9f6c5da216168156b8d5...",
+            "changed": 42,
+            "total": 50
+          },
+          {
+            "hash": "fee51849b23c23d44377...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "5521b15f783eb73eb9ba...",
+            "changed": 45,
+            "total": 50
+          },
+          {
+            "hash": "72c7ee8b144412e36c98...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "25cd2b051903388e4b03...",
+            "changed": 40,
+            "total": 50
+          },
+          {
+            "hash": "707d4bb80f5e667984cd...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "b14647d28c8e04c4fead...",
+            "changed": 39,
+            "total": 50
+          },
+          {
+            "hash": "e69201635834a1e7f196...",
+            "changed": 40,
+            "total": 50
+          },
+          {
+            "hash": "ade4b7901283192cd262...",
+            "changed": 37,
+            "total": 50
+          },
+          {
+            "hash": "91b453380f29025f2d36...",
+            "changed": 42,
+            "total": 50
+          },
+          {
+            "hash": "fa03c6f5f7be6ed91755...",
+            "changed": 47,
+            "total": 50
+          },
+          {
+            "hash": "e0161f620eec9e27733a...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "e286a9e5573538849c39...",
+            "changed": 45,
+            "total": 50
+          },
+          {
+            "hash": "9a002943b0ea8b0103d2...",
+            "changed": 38,
+            "total": 50
+          },
+          {
+            "hash": "aab319e659d720cb512c...",
+            "changed": 39,
+            "total": 50
+          },
+          {
+            "hash": "62c5910b675bdb0ef499...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "8e51812eff51c9c2c839...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "0a364a22f52a34df312f...",
+            "changed": 47,
+            "total": 50
+          },
+          {
+            "hash": "20f175865e4eed915892...",
+            "changed": 41,
+            "total": 50
+          },
+          {
+            "hash": "d92f0ca51a301d07bbf1...",
+            "changed": 43,
+            "total": 50
+          },
+          {
+            "hash": "6af548f6342cae19e6c6...",
+            "changed": 41,
+            "total": 50
+          },
+          {
+            "hash": "fb6f819cace671da7670...",
+            "changed": 42,
+            "total": 50
+          },
+          {
+            "hash": "be81b410b903f693606d...",
+            "changed": 41,
+            "total": 50
+          },
+          {
+            "hash": "87362b767c5101df87fa...",
+            "changed": 39,
+            "total": 50
+          },
+          {
+            "hash": "0de58959ea45debb0a24...",
+            "changed": 39,
+            "total": 50
+          },
+          {
+            "hash": "e2ae76d0ff72789c5ee0...",
+            "changed": 41,
+            "total": 50
+          },
+          {
+            "hash": "155ca716dd3a1197fd29...",
+            "changed": 37,
+            "total": 50
+          },
+          {
+            "hash": "43313e0863ac2cf8a17f...",
+            "changed": 39,
+            "total": 50
+          },
+          {
+            "hash": "0f70cd07c24beecfa2a3...",
+            "changed": 41,
+            "total": 50
+          },
+          {
+            "hash": "5e657d25aece3be0e6b1...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "e1220ce2d370fe846c10...",
+            "changed": 41,
+            "total": 50
+          },
+          {
+            "hash": "5519e73daeb6ad6bcda6...",
+            "changed": 42,
+            "total": 50
+          },
+          {
+            "hash": "35b7d0260c51bda51623...",
+            "changed": 46,
+            "total": 50
+          },
+          {
+            "hash": "1369d235fb149d0cdc89...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "bd162ec3e3fa018b6b06...",
+            "changed": 37,
+            "total": 50
+          },
+          {
+            "hash": "15d1f04ca119622633e3...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "2adf0b06b535e379d8c6...",
+            "changed": 38,
+            "total": 50
+          },
+          {
+            "hash": "d82bf943224cdadebcf3...",
+            "changed": 40,
+            "total": 50
+          },
+          {
+            "hash": "7a8f16a4fee0e3119010...",
+            "changed": 37,
+            "total": 50
+          },
+          {
+            "hash": "e506f955ee543ab745b0...",
+            "changed": 45,
+            "total": 50
+          },
+          {
+            "hash": "6ec056991c20f355bbe3...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "ed1244c818a458381f5d...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "c612a0ae964e141eaec7...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "ac03f0351af5e9602fa2...",
+            "changed": 41,
+            "total": 50
+          },
+          {
+            "hash": "c260eefdf133ea7244d3...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "c32ce57cfa4ca342ab35...",
+            "changed": 38,
+            "total": 50
+          },
+          {
+            "hash": "e53385b5df7246b71120...",
+            "changed": 42,
+            "total": 50
+          },
+          {
+            "hash": "054283e3051357d1a0ad...",
+            "changed": 42,
+            "total": 50
+          },
+          {
+            "hash": "08538346f3af8821387a...",
+            "changed": 42,
+            "total": 50
+          },
+          {
+            "hash": "65d52a5d6ad57e11043c...",
+            "changed": 43,
+            "total": 50
+          },
+          {
+            "hash": "afc2e175942ba0809b40...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "e3247fb6dd0eeb90bf86...",
+            "changed": 41,
+            "total": 50
+          },
+          {
+            "hash": "9fc618563791990b3344...",
+            "changed": 41,
+            "total": 50
+          },
+          {
+            "hash": "29f2ab7a5dac4a88e6a4...",
+            "changed": 40,
+            "total": 50
+          },
+          {
+            "hash": "a92811fe1e6c0548860c...",
+            "changed": 43,
+            "total": 50
+          },
+          {
+            "hash": "e895540714afe26febb9...",
+            "changed": 40,
+            "total": 50
+          },
+          {
+            "hash": "89c23bee496980adce77...",
+            "changed": 39,
+            "total": 50
+          },
+          {
+            "hash": "9dcb3d30d0f1c98acf83...",
+            "changed": 45,
+            "total": 50
+          },
+          {
+            "hash": "7d5e3b6b017240b45f4b...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "35762043edbbcfe87f6a...",
+            "changed": 46,
+            "total": 50
+          },
+          {
+            "hash": "88500f161c22a4768844...",
+            "changed": 40,
+            "total": 50
+          },
+          {
+            "hash": "de12cec5d2aa224e4aa7...",
+            "changed": 43,
+            "total": 50
+          },
+          {
+            "hash": "567774382c155ba4c938...",
+            "changed": 38,
+            "total": 50
+          },
+          {
+            "hash": "203cf5577c3b2aeb6d6c...",
+            "changed": 42,
+            "total": 50
+          },
+          {
+            "hash": "11bf36257c0a97a296f8...",
+            "changed": 46,
+            "total": 50
+          },
+          {
+            "hash": "360a52b2d8144bb01535...",
+            "changed": 41,
+            "total": 50
+          },
+          {
+            "hash": "f96194f2bc3a89a2046c...",
+            "changed": 45,
+            "total": 50
+          },
+          {
+            "hash": "8675bc9c374f5114eb30...",
+            "changed": 43,
+            "total": 50
+          },
+          {
+            "hash": "358dd868189fb265e3ec...",
+            "changed": 40,
+            "total": 50
+          },
+          {
+            "hash": "dda13357da4c995d8541...",
+            "changed": 40,
+            "total": 50
+          },
+          {
+            "hash": "f1b892fb80b5c813a191...",
+            "changed": 43,
+            "total": 50
+          },
+          {
+            "hash": "361d15ae458c82c09d52...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "b9d7bd006eaebab3cdd7...",
+            "changed": 42,
+            "total": 50
+          },
+          {
+            "hash": "f3f9b498a34549c89405...",
+            "changed": 40,
+            "total": 50
+          },
+          {
+            "hash": "8a2fcb8d6e115bf2bb1f...",
+            "changed": 43,
+            "total": 50
+          },
+          {
+            "hash": "02360499df810ef05119...",
+            "changed": 48,
+            "total": 50
+          },
+          {
+            "hash": "74238ee76541db52ee1f...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "15e741fbdfd2749ec692...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "778567bc3ee98cc1442c...",
+            "changed": 46,
+            "total": 50
+          },
+          {
+            "hash": "3311ea0bcc21849d2e50...",
+            "changed": 45,
+            "total": 50
+          },
+          {
+            "hash": "b39d7ff42705428875f2...",
+            "changed": 47,
+            "total": 50
+          },
+          {
+            "hash": "4191cb5334da4fa59727...",
+            "changed": 45,
+            "total": 50
+          },
+          {
+            "hash": "eaa3e3d99a3b1a864eab...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "18116d7d32dfb7f4bb0f...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "889512850499c31ab0de...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "5ce6857f769b80d8c6b9...",
+            "changed": 43,
+            "total": 50
+          },
+          {
+            "hash": "e1703ae848174c7a9642...",
+            "changed": 41,
+            "total": 50
+          },
+          {
+            "hash": "d62b290add9bbf62ed4b...",
+            "changed": 40,
+            "total": 50
+          },
+          {
+            "hash": "d394a57dd66094d99ccc...",
+            "changed": 40,
+            "total": 50
+          },
+          {
+            "hash": "1f1e24ead541f0ec5d46...",
+            "changed": 46,
+            "total": 50
+          },
+          {
+            "hash": "71331e92bda4a55a153d...",
+            "changed": 44,
+            "total": 50
+          },
+          {
+            "hash": "e126e5f3eda501c0844a...",
+            "changed": 45,
+            "total": 50
+          },
+          {
+            "hash": "603e5fcde0ea74aed8d7...",
+            "changed": 36,
+            "total": 50
+          },
+          {
+            "hash": "445f745227c6ca38b4b2...",
+            "changed": 41,
+            "total": 50
+          },
+          {
+            "hash": "d607aad19bd588aa85ef...",
+            "changed": 39,
+            "total": 50
+          },
+          {
+            "hash": "26cce43ef7113b51fdb3...",
+            "changed": 48,
+            "total": 50
+          },
+          {
+            "hash": "e963b53ac43d411fd432...",
+            "changed": 45,
+            "total": 50
+          },
+          {
+            "hash": "6e5aed8c0b9049765464...",
+            "changed": 38,
+            "total": 50
+          },
+          {
+            "hash": "507f5034cf5b392eff4b...",
+            "changed": 45,
+            "total": 50
+          },
+          {
+            "hash": "82ee769faadeef8cdb35...",
+            "changed": 43,
+            "total": 50
+          },
+          {
+            "hash": "3e95058e6c576ed0b2a7...",
+            "changed": 42,
+            "total": 50
+          }
+        ]
+      }
+    },
+    {
+      "step": 7,
+      "name": "Payout Math",
+      "ecRefs": [
+        "EC-11",
+        "EC-18"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "All 7600 bets: win_amount = amount_currency × payout_multiplier (tolerance 1e-8)",
+      "failures": [],
+      "details": {
+        "checked": 7600,
+        "tolerance": "1e-8"
+      }
+    },
+    {
+      "step": 8,
+      "name": "Multiplier Table Provenance",
+      "ecRefs": [
+        "EC-28",
+        "EC-32"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "7600/7600 bets match scaling_edge[0].multipliers (reference). Avg theoretical RTP = 99.9000%",
+      "failures": [],
+      "details": {
+        "total": 7600,
+        "payoutTableMatches": 7600,
+        "scalingEdgeMatches": 7600,
+        "ptOnlyMatches": 0,
+        "seOnlyMatches": 0,
+        "neitherMatches": 0,
+        "referenceTable": "scaling_edge[0].multipliers",
+        "configLoadTimestampPredatesBets": "Evidence records present; verify via loadConfig timestamp in state",
+        "theoreticalRTPs": {
+          "8r/low": 0.999000001875,
+          "8r/medium": 0.9990000024218751,
+          "8r/high": 0.9990000007031249,
+          "9r/low": 0.9990000022265626,
+          "9r/medium": 0.9990000028906251,
+          "9r/high": 0.9990000010546874,
+          "10r/low": 0.9989999972460938,
+          "10r/medium": 0.9990000024609375,
+          "10r/high": 0.9990000003125001,
+          "11r/low": 0.9989999994335936,
+          "11r/medium": 0.9990000023535156,
+          "11r/high": 0.9990000007031252,
+          "12r/low": 0.9990000005908204,
+          "12r/medium": 0.9990000008251954,
+          "12r/high": 0.9990000041552735,
+          "13r/low": 0.9989999999902343,
+          "13r/medium": 0.9990000001684571,
+          "13r/high": 0.9990000029541014,
+          "14r/low": 0.998999999506836,
+          "14r/medium": 0.9990000024584962,
+          "14r/high": 0.9990000014294433,
+          "15r/low": 0.9990000005279541,
+          "15r/medium": 0.9990000008007812,
+          "15r/high": 0.999000002380371,
+          "16r/low": 0.9989999989413452,
+          "16r/medium": 0.9989999974716187,
+          "16r/high": 0.9989999991876222
+        },
+        "avgTheoreticalRTP": 0.9990000009285254
+      }
+    },
+    {
+      "step": 9,
+      "name": "Phase C Code-Path Equivalence",
+      "ecRefs": [
+        "EC-15",
+        "EC-16",
+        "EC-17"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "Phase C slots recomputed (200/200), all multipliers in same table as Phase B, KS D=0.0695",
+      "failures": [],
+      "details": {
+        "phaseCSlotRecomputed": 200,
+        "phaseCSlotSkipped": 0,
+        "ksStat_BC": 0.06950000000000003,
+        "ksCritical_alpha005": 0.10086029942450102,
+        "ksInterpretation": "D=0.0695 < critical 0.1009 (α=0.05) — no significant difference"
+      }
+    },
+    {
+      "step": 10,
+      "name": "RTP Analysis",
+      "ecRefs": [
+        "EC-19",
+        "EC-20",
+        "EC-21",
+        "EC-22"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "Phase A RTP=96.671% | B=84.683% | C=119.000% — all within 5σ of 99.9%",
+      "failures": [],
+      "details": {
+        "phaseA": {
+          "rtp": 0.9667144168870856,
+          "lower95": 0.9204896372157548,
+          "upper95": 1.0129391965583023,
+          "n": 5400,
+          "totalWagered": 53.999999999997826,
+          "totalWon": 52.20257851190052,
+          "rtpPct": "96.6714%"
+        },
+        "phaseB": {
+          "rtp": 0.8468287965549738,
+          "lower95": 0.7575586821680697,
+          "upper95": 0.9360989109419945,
+          "n": 2000,
+          "totalWagered": 20.000000000000327,
+          "totalWon": 16.936575931099753,
+          "rtpPct": "84.6829%"
+        },
+        "phaseC": {
+          "rtp": 1.190001372550004,
+          "lower95": 0.7749429130705211,
+          "upper95": 1.6050598320294784,
+          "n": 200,
+          "totalWagered": 2000,
+          "totalWon": 2380.0027451000083,
+          "rtpPct": "119.0001%"
+        },
+        "perConfigRTP": {
+          "10r/low": {
+            "rtp": 1.0246913843000005,
+            "n": 200,
+            "zScore": 0.6830997804823482,
+            "theoreticalSE": 0.03761000227793865,
+            "pass": true
+          },
+          "9r/medium": {
+            "rtp": 1.0716459597000019,
+            "n": 200,
+            "zScore": 0.7960275202991316,
+            "theoreticalSE": 0.09126061329224264,
+            "pass": true
+          },
+          "14r/medium": {
+            "rtp": 0.8804839321999979,
+            "n": 200,
+            "zScore": -1.2191374929744616,
+            "theoreticalSE": 0.0972130448640749,
+            "pass": true
+          },
+          "16r/low": {
+            "rtp": 1.006581213049999,
+            "n": 200,
+            "zScore": 0.3200996898810772,
+            "theoreticalSE": 0.023683912511178885,
+            "pass": true
+          },
+          "11r/medium": {
+            "rtp": 1.0179317412500015,
+            "n": 200,
+            "zScore": 0.23786122753049432,
+            "theoreticalSE": 0.07959153934650585,
+            "pass": true
+          },
+          "12r/low": {
+            "rtp": 1.0128325361499984,
+            "n": 200,
+            "zScore": 0.49962886194838013,
+            "theoreticalSE": 0.027685622676112496,
+            "pass": true
+          },
+          "16r/medium": {
+            "rtp": 0.9360420395499983,
+            "n": 200,
+            "zScore": -0.601288422503916,
+            "theoreticalSE": 0.10470509341894348,
+            "pass": true
+          },
+          "14r/low": {
+            "rtp": 1.0368383517999984,
+            "n": 200,
+            "zScore": 1.6625429330539763,
+            "theoreticalSE": 0.022759323111429045,
+            "pass": true
+          },
+          "13r/medium": {
+            "rtp": 1.010496170533334,
+            "n": 150,
+            "zScore": 0.10291926645928953,
+            "theoreticalSE": 0.11170085960417678,
+            "pass": true
+          },
+          "10r/high": {
+            "rtp": 1.184429527149998,
+            "n": 200,
+            "zScore": 0.7135558129680926,
+            "theoreticalSE": 0.25986688606556096,
+            "pass": true
+          },
+          "14r/high": {
+            "rtp": 0.7302375462500011,
+            "n": 200,
+            "zScore": -0.675172593836299,
+            "theoreticalSE": 0.39806481513549474,
+            "pass": true
+          },
+          "8r/medium": {
+            "rtp": 0.9353038881000004,
+            "n": 200,
+            "zScore": -0.7204483988276571,
+            "theoreticalSE": 0.08841176134702843,
+            "pass": true
+          },
+          "11r/high": {
+            "rtp": 1.1533692587931035,
+            "n": 116,
+            "zScore": 0.39999103538238184,
+            "theoreticalSE": 0.38593179631021024,
+            "pass": true
+          },
+          "8r/high": {
+            "rtp": 1.0259341331333338,
+            "n": 150,
+            "zScore": 0.12249059884695511,
+            "theoreticalSE": 0.21988734961600157,
+            "pass": true
+          },
+          "15r/high": {
+            "rtp": 0.828073888977276,
+            "n": 264,
+            "zScore": -0.45843329036269587,
+            "theoreticalSE": 0.3728483829948158,
+            "pass": true
+          },
+          "16r/high": {
+            "rtp": 0.7961603750000046,
+            "n": 250,
+            "zScore": -0.48398759509546235,
+            "theoreticalSE": 0.41910087583956995,
+            "pass": true
+          },
+          "13r/high": {
+            "rtp": 0.6197104918666663,
+            "n": 150,
+            "zScore": -0.9506140754069412,
+            "theoreticalSE": 0.3989942058989254,
+            "pass": true
+          },
+          "12r/high": {
+            "rtp": 1.0187931838400084,
+            "n": 250,
+            "zScore": 0.070878894908471,
+            "theoreticalSE": 0.27925356152304837,
+            "pass": true
+          },
+          "10r/medium": {
+            "rtp": 0.9757057840999984,
+            "n": 200,
+            "zScore": -0.27054594943779803,
+            "theoreticalSE": 0.0861007749271708,
+            "pass": true
+          },
+          "9r/low": {
+            "rtp": 1.017324201149999,
+            "n": 200,
+            "zScore": 0.556836486952499,
+            "theoreticalSE": 0.032907687587581065,
+            "pass": true
+          },
+          "15r/low": {
+            "rtp": 0.9677098297999973,
+            "n": 200,
+            "zScore": -1.0694531203695135,
+            "theoreticalSE": 0.029258103608310968,
+            "pass": true
+          },
+          "8r/low": {
+            "rtp": 1.0136908998400052,
+            "n": 250,
+            "zScore": 0.41245193813099057,
+            "theoreticalSE": 0.03561845267736256,
+            "pass": true
+          },
+          "13r/low": {
+            "rtp": 1.0746924192499991,
+            "n": 200,
+            "zScore": 2.254821688168754,
+            "theoreticalSE": 0.03356913748309406,
+            "pass": true
+          },
+          "9r/high": {
+            "rtp": 1.0165218928999968,
+            "n": 200,
+            "zScore": 0.08347826187962509,
+            "theoreticalSE": 0.20989767282485172,
+            "pass": true
+          },
+          "11r/low": {
+            "rtp": 0.9419491969000017,
+            "n": 200,
+            "zScore": -1.810887802840081,
+            "theoreticalSE": 0.03150432788299942,
+            "pass": true
+          },
+          "12r/medium": {
+            "rtp": 0.8404577651075266,
+            "n": 186,
+            "zScore": -1.6638544960954194,
+            "theoreticalSE": 0.09528611742464606,
+            "pass": true
+          },
+          "15r/medium": {
+            "rtp": 1.0246318096153875,
+            "n": 234,
+            "zScore": 0.24924445245476132,
+            "theoreticalSE": 0.10283803455982526,
+            "pass": true
+          }
+        },
+        "configsFailed": 0,
+        "note": "Per-config z-scores use theoretical variance (not sample variance) per PLAN.md — required for high-variance configs where jackpots are rarely hit at N=150-200."
+      }
+    },
+    {
+      "step": 11,
+      "name": "Serial Independence",
+      "ecRefs": [
+        "EC-29"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "Phases B and C pass lag-1 and runs tests. Phase B: r=-0.0089 (threshold ±0.0671), runs z=-0.483 p=0.6290",
+      "failures": [],
+      "details": {
+        "B": {
+          "lag1": -0.008860896852259473,
+          "threshold": 0.06708203932499368,
+          "runsTest": {
+            "runs": 640,
+            "n1": 405,
+            "n2": 1595,
+            "expectedRuns": 646.975,
+            "stdDev": 14.436865115033624,
+            "z": -0.48313812897903335,
+            "pValue": 0.6289976678486715
+          },
+          "n": 2000
+        },
+        "C": {
+          "lag1": -0.039448689187494765,
+          "threshold": 0.21213203435596426,
+          "runsTest": {
+            "runs": 79,
+            "n1": 51,
+            "n2": 149,
+            "expectedRuns": 76.99,
+            "stdDev": 5.351226835335621,
+            "z": 0.3756148004654602,
+            "pValue": 0.7072033934778719
+          },
+          "n": 200
+        }
+      }
+    },
+    {
+      "step": 12,
+      "name": "Slot Symmetry",
+      "ecRefs": [
+        "EC-9"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "All configs with n≥100 pass chi-squared symmetry test (p>0.01)",
+      "failures": [],
+      "details": {
+        "configs": 27,
+        "results": {
+          "10r/low": {
+            "chi2": 8.190614718614718,
+            "df": 8,
+            "pValue": 0.4152943037568785,
+            "n": 200
+          },
+          "9r/medium": {
+            "chi2": 10.041904761904762,
+            "df": 7,
+            "pValue": 0.18524500816687617,
+            "n": 200
+          },
+          "14r/medium": {
+            "chi2": 10.415041072402774,
+            "df": 8,
+            "pValue": 0.23632329113157058,
+            "n": 200
+          },
+          "16r/low": {
+            "chi2": 20.45132340638797,
+            "df": 10,
+            "pValue": 0.025245628659084973,
+            "n": 200
+          },
+          "11r/medium": {
+            "chi2": 6.761558441558441,
+            "df": 9,
+            "pValue": 0.6632996431951266,
+            "n": 200
+          },
+          "12r/low": {
+            "chi2": 8.59795758671708,
+            "df": 8,
+            "pValue": 0.37730036917937926,
+            "n": 200
+          },
+          "16r/medium": {
+            "chi2": 9.466210947668623,
+            "df": 10,
+            "pValue": 0.48902113624807364,
+            "n": 200
+          },
+          "14r/low": {
+            "chi2": 11.16673329507372,
+            "df": 8,
+            "pValue": 0.19156372963642676,
+            "n": 200
+          },
+          "13r/medium": {
+            "chi2": 8.043525556569035,
+            "df": 9,
+            "pValue": 0.530609714634847,
+            "n": 150
+          },
+          "10r/high": {
+            "chi2": 8.709448773448774,
+            "df": 8,
+            "pValue": 0.36729365432690864,
+            "n": 200
+          },
+          "14r/high": {
+            "chi2": 9.3153190072339,
+            "df": 8,
+            "pValue": 0.31598358363555046,
+            "n": 200
+          },
+          "8r/medium": {
+            "chi2": 5.421714285714286,
+            "df": 8,
+            "pValue": 0.7133016850437033,
+            "n": 200
+          },
+          "11r/high": {
+            "chi2": 4.2832055575236225,
+            "df": 7,
+            "pValue": 0.7484124561002243,
+            "n": 116
+          },
+          "8r/high": {
+            "chi2": 8.160592592592593,
+            "df": 6,
+            "pValue": 0.22559908436987985,
+            "n": 150
+          },
+          "15r/high": {
+            "chi2": 8.258790367881277,
+            "df": 9,
+            "pValue": 0.5090146705316081,
+            "n": 264
+          },
+          "16r/high": {
+            "chi2": 7.364133740301773,
+            "df": 12,
+            "pValue": 0.8334039197729456,
+            "n": 2450
+          },
+          "13r/high": {
+            "chi2": 9.369514633514633,
+            "df": 9,
+            "pValue": 0.4039776570383091,
+            "n": 150
+          },
+          "12r/high": {
+            "chi2": 8.622264482072076,
+            "df": 8,
+            "pValue": 0.37510408280225405,
+            "n": 250
+          },
+          "10r/medium": {
+            "chi2": 3.1282424242424245,
+            "df": 8,
+            "pValue": 0.9258819451610157,
+            "n": 200
+          },
+          "9r/low": {
+            "chi2": 6.415238095238095,
+            "df": 7,
+            "pValue": 0.49308897082216174,
+            "n": 200
+          },
+          "15r/low": {
+            "chi2": 6.621012765012765,
+            "df": 9,
+            "pValue": 0.6779059332331214,
+            "n": 200
+          },
+          "8r/low": {
+            "chi2": 7.861485714285715,
+            "df": 8,
+            "pValue": 0.44755685394506917,
+            "n": 250
+          },
+          "13r/low": {
+            "chi2": 11.014916523090438,
+            "df": 9,
+            "pValue": 0.27410118238755643,
+            "n": 200
+          },
+          "9r/high": {
+            "chi2": 8.142222222222223,
+            "df": 7,
+            "pValue": 0.3198205964246288,
+            "n": 200
+          },
+          "11r/low": {
+            "chi2": 7.4264935064935065,
+            "df": 9,
+            "pValue": 0.5939580759560523,
+            "n": 200
+          },
+          "12r/medium": {
+            "chi2": 5.550372141960545,
+            "df": 8,
+            "pValue": 0.6990581289988336,
+            "n": 186
+          },
+          "15r/medium": {
+            "chi2": 13.904006345031988,
+            "df": 9,
+            "pValue": 0.12506210986161592,
+            "n": 234
+          }
+        }
+      }
+    },
+    {
+      "step": 13,
+      "name": "Zero Edge Audit",
+      "ecRefs": [
+        "EC-23"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "All effective_edge groups (0.1, 0) use the same multiplier table",
+      "failures": [],
+      "details": {
+        "edgeGroups": {
+          "edge_0.1": {
+            "count": 6983,
+            "multiplierMismatches": 0
+          },
+          "edge_0": {
+            "count": 617,
+            "multiplierMismatches": 0
+          }
+        }
+      }
+    },
+    {
+      "step": 14,
+      "name": "Config Completeness",
+      "ecRefs": [
+        "EC-30"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "All 27 configs have >= 100 Phase A bets. Min: 116, Total: 5400/5400",
+      "failures": [],
+      "details": {
+        "configCounts": {
+          "10r/low": 200,
+          "9r/medium": 200,
+          "14r/medium": 200,
+          "16r/low": 200,
+          "11r/medium": 200,
+          "12r/low": 200,
+          "16r/medium": 200,
+          "14r/low": 200,
+          "13r/medium": 150,
+          "10r/high": 200,
+          "14r/high": 200,
+          "8r/medium": 200,
+          "11r/high": 116,
+          "8r/high": 150,
+          "15r/high": 264,
+          "16r/high": 250,
+          "13r/high": 150,
+          "12r/high": 250,
+          "10r/medium": 200,
+          "9r/low": 200,
+          "15r/low": 200,
+          "8r/low": 250,
+          "13r/low": 200,
+          "9r/high": 200,
+          "11r/low": 200,
+          "12r/medium": 186,
+          "15r/medium": 234
+        },
+        "totalPhaseA": 5400,
+        "totalCorrect": true,
+        "imbalancedConfigs": 10,
+        "minSample": 116,
+        "note": "Some configs have fewer than 200 bets due to a localStorage quota restart during Phase A collection at ~4934 bets. Minimum per-config sample is 116 bets, which exceeds the 100-bet verification threshold. All bets are individually verified by slot recomputation (EC-7)."
+      }
+    },
+    {
+      "step": 15,
+      "name": "Epoch Size",
+      "ecRefs": [
+        "EC-31"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "All 152 epochs have exactly 50 bets",
+      "failures": [],
+      "details": {
+        "epochs": 152
+      }
+    },
+    {
+      "step": 16,
+      "name": "Multiplier Table + Symmetry",
+      "ecRefs": [
+        "EC-10",
+        "EC-12",
+        "EC-13",
+        "EC-14"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "All 27 configs: multipliers match table (tol 1e-5), slot symmetry verified, 16r/high 0.2× floor holds",
+      "failures": []
+    },
+    {
+      "step": 17,
+      "name": "Phase Labels",
+      "ecRefs": [
+        "EC-24"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "All 7600 bets and 152 seeds have valid phase labels",
+      "failures": [],
+      "details": {
+        "betPhases": {
+          "A": 5400,
+          "B": 2000,
+          "C": 200
+        },
+        "seedPhases": {
+          "A": 108,
+          "B": 40,
+          "C": 4
+        }
+      }
+    },
+    {
+      "step": 18,
+      "name": "Dataset Hash",
+      "ecRefs": [
+        "EC-25"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "SHA-256 of master JSON recorded",
+      "failures": [],
+      "details": {
+        "file": "results/merged/plinko-master.json",
+        "sizeBytes": 5883191,
+        "sha256": "8382e45f8cdf4d439a8866669d15e6f4be543f4b926fb64c67e09d9da7d6b2db"
+      }
+    },
+    {
+      "step": 19,
+      "name": "Scaling Edge Analysis",
+      "ecRefs": [
+        "EC-17",
+        "EC-32"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "All 27 configs: bracket[0] house_edge=0.001, both test amounts ≤ max_bet, symmetric multipliers",
+      "failures": [],
+      "details": {
+        "16r/high_bracket0": {
+          "house_edge": "0.001",
+          "max_bet": "335.946312864870400000",
+          "multipliers": [
+            "1009.33110594",
+            "131.21304378",
+            "26.24260875",
+            "9.08397996",
+            "4.03732442",
+            "2.01866221",
+            "0.20186622",
+            "0.20186622",
+            "0.20186622",
+            "0.20186622",
+            "0.20186622",
+            "2.01866221",
+            "4.03732442",
+            "9.08397996",
+            "26.24260875",
+            "131.21304378",
+            "1009.33110594"
+          ]
+        },
+        "progressiveEdge_sample_16r_high": {
+          "brackets": 191,
+          "minEdge": "0.001",
+          "maxEdge": "0.02"
+        }
+      }
+    }
+  ]
+}

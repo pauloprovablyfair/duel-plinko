@@ -1,0 +1,13 @@
+{
+  "name": "plinko-audit",
+  "version": "1.0.0",
+  "description": "Provably fair audit — Duel.com Plinko",
+  "scripts": {
+    "verify": "ts-node tests/verify.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "ts-node": "^10",
+    "typescript": "^5"
+  }
+}
