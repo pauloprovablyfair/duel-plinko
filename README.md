@@ -13,9 +13,11 @@
 
 | Metric | Value |
 |--------|-------|
-| Total bets collected | 7,600 (Phase A: 5,400 · Phase B: 2,000 · Phase C: 200) |
-| Seed entries | 152 (149 rotations + 3 pre-capture commitments — all 152 revealed) |
-| Bets verified by slot recomputation | 7,600 / 7,600 — 100% match |
+| Primary bets collected | 7,600 (Phase A: 5,400 · Phase B: 2,000 · Phase C: 200) |
+| Supplementary bets (Phase D) | 500 (client seed verification — all 27 configs, 10 client seeds) |
+| Seed entries (primary) | 152 (149 rotations + 3 pre-capture commitments — all 152 revealed) |
+| Seed entries (Phase D) | 11 (10 rotations + 1 pre-capture commitment — all 10 revealed) |
+| Bets verified by slot recomputation | 7,600 / 7,600 (primary) · 500 / 500 (Phase D) — 0 mismatches |
 | Simulation | 27,000,000 rounds × 27 configs |
 | Avg simulated RTP | 99.890% |
 | Avg theoretical RTP | 99.900% |
@@ -24,7 +26,7 @@
 | Phase A empirical RTP | 96.6714% (high-variance sample, expected at N=5,400) |
 | Phase B empirical RTP | 84.6829% (16r/high, high-paying slots undersampled, z=−1.03, expected variance) |
 | Phase C empirical RTP | 119.0001% (200 bets at $10, two slot-2 hits (26.24×, third position from edge)) |
-| Total wagered | Phase A: $54.00 · Phase B: $20.00 · Phase C: $2,000.00 |
+| Total wagered | Phase A: $54.00 · Phase B: $20.00 · Phase C: $2,000.00 · Phase D: $5.00 |
 | EC checks | 19 / 19 PASS |
 | Hard fails | 0 |
 | Flags | 0 |
