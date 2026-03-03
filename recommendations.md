@@ -64,6 +64,20 @@ Five epochs in the captured dataset show a nonce-50 value alongside a missing in
 
 ---
 
+## Audit Scope Limitations
+
+The following are inherent constraints of this black-box single-account audit. They are not findings against Duel.com. Future audits should address them.
+
+### R-MULTI: Multi-account capture [Future audit]
+
+This audit was conducted from a single account. Commit-reveal is per-user; a single-account audit verifies that account's outcomes but cannot rule out differential treatment across accounts. Future audits should run parallel captures from 2+ accounts to test for per-player seed discrimination — for example, verifying that two accounts with the same configuration and nonce independently produce different slots (confirming per-account server seeds), and that no account receives a systematically biased multiplier table.
+
+### R-BRACKET: Bracket boundary testing [Future audit]
+
+This audit tested only bracket 0 bets ($0.01 and $10.00). For 16r/high, the bracket 0 ceiling is $335.946312864870400000. Bracket boundary behavior — whether the correct multiplier table is selected at amounts just below and just above each threshold — is not verified. Future audits should place bets at amounts straddling the bracket 0 ceiling to confirm correct bracket selection and multiplier table switching.
+
+---
+
 ## Evidence Coverage
 
 All findings referenced above are derived from:

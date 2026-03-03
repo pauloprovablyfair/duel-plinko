@@ -18,8 +18,8 @@ The game runs on Duel.com's centralized server infrastructure. All cryptographic
 
 | Check | Result | Finding |
 |-------|--------|---------|
-| Bet API payload captured | Pass | All fields recorded; request and response stored per bet |
-| drand fields absent from Plinko RNG | Informational | drand_round and drand_randomness are absent from all captured Plinko responses; slot is reproducible without them |
+| Bet API fields captured | Pass | 12 verification-relevant fields stored per bet (see capture/plinko-capture.js) |
+| drand not required for Plinko RNG | Informational | drand_round and drand_randomness not needed for slot computation; confirmed by 7,600/7,600 reproductions without drand inputs |
 | Security token mechanism documented | Pass | Token refreshes every ~8 minutes; required for bet API calls |
 | Seed lifecycle complete | Pass | Commit before Phase A/B/C; 50-bet epoch; rotation; reveal via transaction API |
 | Scaling edge structure documented | Pass | 191 brackets per config; bracket 0 (house_edge=0.001) covers all test amounts |
@@ -156,7 +156,7 @@ The next epoch begins immediately. The new `serverSeedHashed` is captured from t
 
 ## drand
 
-Duel.com uses drand (a distributed randomness beacon) for some games, including Crash. `drand_round` and `drand_randomness` are absent from all 7,600 captured Plinko API responses — the fields do not appear in Plinko payloads.
+Duel.com uses drand (a distributed randomness beacon) for some games, including Crash. `drand_round` and `drand_randomness` are not required for Plinko slot computation.
 
 drand is **not used in Plinko's RNG**. The slot is fully reproducible from `(serverSeed, clientSeed, nonce, rows)` alone using HMAC-SHA256. This is confirmed by Step 5 of the verification suite (`tests/verify.ts`): all 7,600 slots are recomputed without referencing drand fields, and all match `final_slot`.
 

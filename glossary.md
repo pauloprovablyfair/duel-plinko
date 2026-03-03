@@ -31,7 +31,7 @@
 
 **Scaling Edge** — Duel.com's progressive multiplier bracket system. `plinkoConfig.json` defines 191 bet-size brackets per configuration. House edge scales from 0.001 (bracket 0) to 0.02 (highest bracket). Bracket 0 ceiling for the 16-row high-risk configuration is $335.946312864870400000. All bets in the dataset fall in bracket 0 (bet sizes $0.01 and $10.00).
 
-**drand** — A distributed randomness beacon. Fields `drand_round` and `drand_randomness` are absent from all captured Duel.com Plinko API responses — the keys do not appear in Plinko payloads. drand plays no role in Plinko's RNG. Confirmed by 7,600/7,600 slot reproductions using only serverSeed, clientSeed, nonce, and cursor — all slots matched without referencing drand. (drand is used in other Duel.com games.)
+**drand** — A distributed randomness beacon. `drand_round` and `drand_randomness` are not required for Plinko slot computation. drand plays no role in Plinko's RNG. Confirmed by 7,600/7,600 slot reproductions using only serverSeed, clientSeed, nonce, and cursor — all slots matched without referencing drand inputs. (drand is used in other Duel.com games.)
 
 **Chi-squared test** — Statistical test comparing observed slot frequencies to expected frequencies under a fair binomial distribution. Used in EC-9 (slot symmetry). Slots with expected count < 5 are pooled with adjacent slots before the test to satisfy the minimum expected frequency assumption. Result across all 27 configurations: 0 failures.
 
@@ -41,7 +41,7 @@
 
 **Wald-Wolfowitz Runs Test** — Non-parametric test for serial independence. The slot sequence is converted to binary (win/loss based on a threshold), then runs (consecutive sequences of the same outcome) are counted and compared to the expected count under independence. Observed: 640 runs, expected 646.975, z = −0.483, p = 0.629. Result: no serial dependence detected.
 
-**KS Statistic (Kolmogorov-Smirnov)** — Measures the maximum absolute difference between two empirical cumulative distribution functions. Used to compare slot distributions between Phase B (2,000 bets at $0.01) and Phase C (200 bets at $10.00) for the 16-row high-risk configuration. D = 0.0695. Result: no significant difference — the RNG is amount-agnostic.
+**KS Statistic (Kolmogorov-Smirnov)** — Measures the maximum absolute difference between two empirical cumulative distribution functions. The `ksStat()` function is implemented in `src/stats.ts` but is not used as evidence in this audit. Phase C equivalence is established deterministically (200/200 exact slot recomputation + multiplier table identity), which provides stronger proof than any distributional comparison at n=200.
 
 **Phase A** — 5,400 bets at $0.01 across all 27 configurations (4 epochs × 50 bets each per config, with random row/risk assignment). Purpose: full configuration coverage, confirming every combination of rows and risk level is operational and produces correct payouts.
 

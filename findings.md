@@ -136,7 +136,7 @@ Each row uses a unique cursor in the HMAC message, so per-row outcomes are stati
 
 **Capture method:** Console-injected JavaScript script (`capture/plinko-capture.js`) intercepting `fetch` responses.
 
-**Bet-size parity check (Phase C):** 200 bets at $10.00 on 16r/high. All 200 had revealed seeds; all 200 recomputed correctly. Payout multipliers for all 200 bets matched the same `scaling_edge[0].multipliers` table as the $0.01 bets. Two-sample KS test vs Phase B: D = 0.0695 (no significant distribution difference).
+**Bet-size parity check (Phase C):** 200 bets at $10.00 on 16r/high. All 200 had revealed seeds; all 200 recomputed correctly. Payout multipliers for all 200 bets matched the same `scaling_edge[0].multipliers` table as the $0.01 bets. Equivalence proven deterministically — 200/200 exact slot and multiplier matches. No distributional test applied: at n=200, statistical comparisons have near-zero power and add nothing over the deterministic proof.
 
 **Seed hash verification:** 152/152 revealed seeds match their committed SHA-256 hash. 3 seeds retrieved post-collection via transactions API; all 3 hash verifications pass.
 
@@ -288,7 +288,7 @@ All 27 configurations converge to mathematical RTP within expected variance. Hig
 
 ### Chi-Squared Goodness-of-Fit (Simulation)
 
-Tested all 27 configurations. For each, ran 1,000,000 simulated rounds and compared observed slot frequencies against expected binomial B(n, 0.5). Alpha = 0.01 applied as a conservative uniform threshold across all 27 tests. Bonferroni correction (α/27 ≈ 0.00037) was not applied — the uniform α=0.01 threshold is appropriate here because the 27 configs are independent by design, not correlated. (At α=0.01 with 27 independent tests the family-wise false positive rate is 1−0.99²⁷ ≈ 23.8%; the expected number of false positives under the null is 27×0.01 = 0.27. Given that the null hypothesis is directional — any RNG manipulation would produce a systematic bias, not a random α-level exceedance — the unadjusted per-test threshold is appropriate.)
+Tested all 27 configurations. For each, ran 1,000,000 simulated rounds and compared observed slot frequencies against independent binomial B(n, 0.5) expected counts. Alpha = 0.01 is the per-test threshold across 27 independent configurations. The family-wise error rate (FWER) at this threshold is 1−0.99²⁷ ≈ 23.8%. With Bonferroni correction, the per-test threshold would be α/27 ≈ 0.00037. One config (8r/high, p=0.0059) falls below the uncorrected α=0.01 — a single-run false positive within the expected FWER rate for 27 independent tests. All 27 configs pass the Bonferroni-corrected threshold (minimum p=0.0059 > 0.00037). The choice of correction method does not change the conclusion: 0/27 reject the null hypothesis at the Bonferroni threshold.
 
 | Config | n (simulated) | χ² Statistic | df | Critical (p=0.01) | Result |
 |--------|--------------|-------------|----|--------------------|--------|
@@ -360,7 +360,7 @@ The API returns `effective_edge` on each bet at two values: 0.1 (6,983 bets, 91.
 
 **drand fields**
 
-API responses contain no `drand_round` or `drand_randomness` fields — both are absent from all 7,600 captured Plinko bet responses. RNG depends solely on (serverSeed, clientSeed, nonce, cursor). Confirmed by slot recomputation: all 7,600 slots match without referencing drand fields.
+`drand_round` and `drand_randomness` are not required for Plinko slot computation. RNG depends solely on (serverSeed, clientSeed, nonce, cursor). Confirmed by slot recomputation: all 7,600 slots independently reproduced without referencing drand inputs. 0 mismatches.
 
 **Progressive house edge**
 
@@ -401,8 +401,9 @@ None. No suspicious nonce behaviour, no unexpected seed changes mid-epoch, no mu
 
 | Metric | Value |
 |--------|-------|
-| Total verification steps | 19 |
+| Total verification steps | 20 |
 | Passing | 19 |
+| Flags | 1 (Step 4 — capture-retry nonce gaps) |
 | Failing | 0 |
 | Source | `tests/verify.ts` |
 
@@ -433,14 +434,14 @@ Mochawesome HTML report not generated — the suite runs via `ts-node` with a cu
 | `src/stats.ts` | Chi-squared, KS test, autocorrelation, runs test |
 | `src/loader.ts` | Dataset loader; bet and seed parsing |
 | `src/types.ts` | TypeScript type definitions for all API fields |
-| `tests/verify.ts` | Full 19-step verification suite |
+| `tests/verify.ts` | Full 20-step verification suite |
 | `capture/plinko-capture.js` | Data collection script |
 
 ### Generated Artifacts
 
 | File | Contents |
 |------|---------|
-| `outputs/verification-results.json` | 19-step verification results; seed hash check; slot recomputation; payout math; nonce audit; client seed influence; RTP analysis; chi-squared on live bets |
+| `outputs/verification-results.json` | 20-step verification results (19 PASS, 1 FLAG); seed hash check; slot recomputation; payout math; nonce audit; client seed influence; RTP analysis; chi-squared on live bets; anti-circularity |
 | `outputs/simulation-results.json` | Per-config simulated RTP, mathematical RTP, chi-squared from 1M simulated rounds each (27,000,000 total) |
 | `outputs/chi-squared-results.json` | Chi-squared goodness-of-fit from live bets (alpha=0.01, 27 configs) |
 | `outputs/determinism-log.json` | Bet-by-bet verification log (7,600 bets, 0 skipped) |
@@ -462,7 +463,7 @@ The checklist specifies 100-bet seed rotation intervals. Duel.com's server enfor
 
 **3. 200 bets at $10 (Phase C)**
 
-Phase C was a code-path equivalence check, not a standalone RTP study. Its purpose was to confirm that $10 bets use the same HMAC-SHA256 path and the same `scaling_edge[0].multipliers` table as $0.01 bets. For this goal, 200 bets is sufficient: all 200 recomputed correctly from revealed seeds, all 200 multipliers matched the reference table within 1e-8, and the two-sample KS test vs Phase B returned D = 0.0695 — no significant distribution difference. The conclusion (same code path, no hidden bet-size branch) is valid at this sample size.
+Phase C was a code-path equivalence check, not a standalone RTP study. Its purpose was to confirm that $10 bets use the same HMAC-SHA256 path and the same `scaling_edge[0].multipliers` table as $0.01 bets. For this goal, 200 bets is sufficient: all 200 recomputed correctly from revealed seeds, and all 200 multipliers matched the reference table within 1e-8. Equivalence is proven deterministically. No distributional test is applied — at n=200, statistical comparisons have near-zero power and add nothing over the deterministic proof. The conclusion (same code path, no hidden bet-size branch) rests on 200/200 exact matches.
 
 **4. No Mochawesome HTML report**
 

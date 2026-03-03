@@ -24,7 +24,7 @@ Duel.com Plinko uses a standard cryptographic construction (HMAC-SHA256) with a 
 | Commit-reveal integrity | Pass | All 152 seeds satisfy SHA-256(hexDecode(seed)) = committedHash |
 | Slot recomputation | Pass | 0 mismatches across 7,600 bets |
 
-**Overall Verdict:** The RNG is a correctly implemented HMAC-SHA256 commit-reveal scheme with no bias, no hidden inputs, and full post-hoc verifiability. **[Evidence: EC-1, EC-6, EC-7]**
+**Overall Verdict:** The RNG is a correctly implemented HMAC-SHA256 commit-reveal scheme with no bias, no hidden inputs, and full post-hoc verifiability. **[Check: EC-1, EC-6, EC-7]**
 
 ---
 
@@ -44,7 +44,7 @@ for cursor = 0 to rows-1:
 final_slot = slot                          // range [0, rows]
 ```
 
-This is the exact algorithm implemented in `src/rng.ts` (function `computeSlot`). The implementation is coded from the cryptographic specification, not copied from any casino source code. **[Evidence: EC-7]**
+This is the exact algorithm implemented in `src/rng.ts` (function `computeSlot`). The implementation is coded from the cryptographic specification, not copied from any casino source code. **[Check: EC-7]**
 
 ### Key Encoding
 
@@ -73,7 +73,7 @@ Each bounce uses `int % 2` where `int` is a 32-bit unsigned integer (range 0 to 
 
 There are exactly 2,147,483,648 even values and 2,147,483,648 odd values in `[0, 2^32 - 1]`. Each HMAC output is uniform over this range (HMAC-SHA256 is a pseudorandom function). The probability of a right bounce at any row is exactly 1/2. No rejection sampling is required or applied.
 
-This contrasts with moduli that are not powers of 2 — for example, `int % 37` on a 32-bit integer would have a non-uniform residue distribution requiring rejection sampling. `int % 2` requires none. **[Evidence: EC-7]**
+This contrasts with moduli that are not powers of 2 — for example, `int % 37` on a 32-bit integer would have a non-uniform residue distribution requiring rejection sampling. `int % 2` requires none. **[Check: EC-7]**
 
 ---
 
@@ -83,7 +83,7 @@ For all 7,600 captured Plinko bets, `drand_round` and `drand_randomness` are abs
 
 Verification method: slot recomputation for all 7,600 bets was performed using only `(serverSeed, clientSeed, nonce, rows)`. drand fields were not read or passed to the computation at any point.
 
-Result: 0 mismatches out of 7,600 bets. If drand were a hidden input to the slot calculation, recomputation would fail for those bets. It does not. **[Evidence: EC-6, EC-7]**
+Result: 0 mismatches out of 7,600 bets. If drand were a hidden input to the slot calculation, recomputation would fail for those bets. It does not. **[Check: EC-6, EC-7]**
 
 ---
 
@@ -121,7 +121,7 @@ The scheme operates in fixed 50-bet epochs:
 3. **Rotation:** After bet 49, the server rotates seeds. The rotation API call returns a transaction ID, and a subsequent fetch to `GET /api/v2/user/transactions/{txId}` returns the plaintext `serverSeed`.
 4. **Verification:** The auditor recomputes `SHA-256(Buffer.from(revealedSeed, 'hex'))` and compares it to the previously recorded `serverSeedHashed`.
 
-**Verification result:** All 152 seeds pass hash verification. Zero mismatches. This means the server cannot have chosen a different seed after observing bets — the seed was fixed before the first bet of each epoch. **[Evidence: EC-1]**
+**Verification result:** All 152 seeds pass hash verification. Zero mismatches. This means the server cannot have chosen a different seed after observing bets — the seed was fixed before the first bet of each epoch. **[Check: EC-1]**
 
 Implemented in `src/rng.ts` (function `verifyHash`):
 

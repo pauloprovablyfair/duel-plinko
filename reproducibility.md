@@ -25,11 +25,11 @@ plinkov3/
 │   ├── rng.ts           # HMAC-SHA256 implementation
 │   ├── config.ts        # PlinkoConfig wrapper (plinkoConfig.json)
 │   ├── loader.ts        # Dataset loader
-│   ├── stats.ts         # Chi-squared, lag-1 autocorrelation, KS test
+│   ├── stats.ts         # Chi-squared (exact incomplete gamma), lag-1 autocorrelation, runs test
 │   ├── types.ts         # TypeScript interfaces
 │   └── simulate.ts      # Monte Carlo simulation (27M rounds)
 ├── tests/
-│   └── verify.ts        # 19-step verification suite
+│   └── verify.ts        # 20-step verification suite
 ├── plinkoConfig.json    # Duel.com supplied config
 ├── results/
 │   └── merged/
@@ -62,9 +62,9 @@ npm install
 npx ts-node tests/verify.ts
 ```
 
-Expected output: 19 steps, all `PASS`, final verdict `PROVABLY FAIR — Full Pass`.
+Expected output: 20 steps, 19 `PASS` and 1 `FLAG` (Step 4 — capture-retry nonce gaps), final verdict `PROVABLY FAIR — with flags`.
 
-The verification suite covers: slot recomputation against all 7,600 bets, server seed hash commit-reveal integrity, nonce ordering, payout correctness, configuration coverage, statistical tests (chi-squared, lag-1 autocorrelation, Wald-Wolfowitz runs test, KS test), and drand non-influence confirmation.
+The verification suite covers: slot recomputation against all 7,600 bets, server seed hash commit-reveal integrity, nonce ordering, payout correctness, configuration coverage, statistical tests (chi-squared with exact incomplete gamma p-values, lag-1 autocorrelation, Wald-Wolfowitz runs test), probability independence anti-circularity check (Step 20), and drand non-influence confirmation.
 
 ---
 

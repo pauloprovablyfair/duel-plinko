@@ -3,7 +3,7 @@
 ## What Was Tested
 
 - Full data collection across 3 structured phases (5,400 + 2,000 + 200 bets)
-- Supplementary Phase D: 500 bets across all 27 configs to verify client seed usage
+- Supplementary Phase D: 500 bets across 10 configs to verify client seed usage
 - Slot recomputation for every bet with a revealed server seed (7,600/7,600 primary; 500/500 Phase D)
 - Seed hash verification for all 152 seeds
 - Commitment linkage for all 3 pre-capture epoch commitments
@@ -33,7 +33,7 @@ The game produces verifiable outputs. Every bet slot was recomputed from the raw
 
 ## Data Collection
 
-Bets were captured using a purpose-built console script (`capture/plinko-capture.js`) injected into the Duel.com Plinko game page via browser DevTools. The script intercepted the `POST /api/v2/games/plinko/bet` API response for each bet and stored the full request and response payload.
+Bets were captured using a purpose-built console script (`capture/plinko-capture.js`) injected into the Duel.com Plinko game page via browser DevTools. The script intercepted the `POST /api/v2/games/plinko/bet` API response for each bet and stored 12 verification-relevant fields from each response (see `capture/plinko-capture.js` for the exact field list: id, rows, risk_level, final_slot, payout_multiplier, amount_currency, win_amount, nonce, server_seed_hashed, client_seed, transaction_id, effective_edge, created_at).
 
 Storage architecture: bet data was held in memory (JavaScript `Map` objects) during the session because the combined payload would exceed browser localStorage limits. Small metadata — session counters, current epoch index, seed rotation checkpoints, and the Phase A config queue — was written to localStorage after every bet. Auto-save JSON downloads fired automatically at 500-bet intervals, producing 6 partial export files that were later merged into the master dataset.
 
@@ -68,11 +68,13 @@ Each seed epoch covers exactly 50 bets (nonces 0–49). The commit-reveal lifecy
 
 Total seed entries: **152** — 149 rotations + 3 pre-capture commitment snapshots (one per phase start, revealed post-collection via transactions API).
 
+**Per-epoch commitment capture limitation:** Explicit pre-bet commitment snapshots (via `GET /api/v2/client-seed` before any bet) were captured at the 3 phase boundaries only. For the remaining 149 epochs, the commitment hash is first observed in the first bet response's `server_seed_hashed` field after rotation. Step 3 (EC-26) verifies this hash is constant across all 50 bets in every epoch, and Step 1 (EC-1) verifies the revealed seed matches. Future audits should add a `getActiveSeed()` call immediately after rotation and before the first bet to provide an independent pre-bet commitment record for every epoch.
+
 ---
 
 ## Verification Methodology
 
-All 19 EC checks are implemented in `tests/verify.ts` and are run in a single invocation:
+All 20 verification steps (including EC-33 anti-circularity) are implemented in `tests/verify.ts` and are run in a single invocation:
 
 ```
 npx ts-node tests/verify.ts
@@ -80,7 +82,7 @@ npx ts-node tests/verify.ts
 
 The script loads `results/merged/plinko-master.json`, groups bets by `server_seed_hashed` into epochs, and executes each step sequentially. Results are written to `outputs/verification-results.json`. The slot recomputation log for every verified bet is written to `outputs/determinism-log.json`.
 
-The 19 verification steps cover:
+The 20 verification steps cover:
 
 | Step | EC Refs | What Is Checked |
 |------|---------|----------------|
@@ -210,7 +212,7 @@ The total Phase A bet count is correct: **5,400**. All individual bets are verif
 
 ### Purpose
 
-Phase D was a supplementary 500-bet run designed to further verify that the client seed set via `POST /api/v2/client-seed/rotate` is genuinely used in the server's HMAC-SHA256 computation and is not overridden or ignored server-side. The test placed $0.01 bets across all 27 configurations in a balanced random order — the same coverage structure as Phase A.
+Phase D was a supplementary 500-bet run designed to further verify that the client seed set via `POST /api/v2/client-seed/rotate` is genuinely used in the server's HMAC-SHA256 computation and is not overridden or ignored server-side. The test placed $0.01 bets across 10 configurations (one per 50-bet epoch: 8r/high, 9r/low, 10r/low, 10r/medium, 11r/medium, 12r/low, 12r/medium, 14r/low, 15r/medium, 16r/high), selected in random order.
 
 ### Custom Seed Rotation Attempt
 
@@ -230,9 +232,9 @@ The capture script reported `1/11 seeds have NULL reveals`. The flagged entry is
 | Failed reveals | 0 |
 | Distinct client seeds | 10 |
 | Bet amount | $0.01 |
-| Configs covered | All 27 (8–16 rows × low / medium / high) |
+| Configs covered | 10 of 27 (8r/high, 9r/low, 10r/low, 10r/medium, 11r/medium, 12r/low, 12r/medium, 14r/low, 15r/medium, 16r/high) |
 
-Dataset file: `results/plinko-phase-d.json`
+Dataset file: `results/plinko-phase-d.json` [Evidence: E16]
 
 ### Slot Recomputation
 
@@ -246,8 +248,10 @@ slot   += HMAC-SHA256(key, message)[0..3] % 2   // for each cursor in 0..rows-1
 
 **Result: 500 / 500 — 0 mismatches.**
 
-The recomputation used the `client_seed` field echoed in each bet's API response. Every computed slot matched the server-reported `final_slot` exactly, across all 10 client seeds and all 27 row/risk configurations. This confirms:
+The recomputation used the `client_seed` field echoed in each bet's API response. The computation was performed using the same `src/rng.ts` implementation as the primary dataset. No separate output artifact was generated for Phase D; the recomputation can be independently reproduced from `results/plinko-phase-d.json` using the HMAC-SHA256 algorithm documented in `rng-algorithm-analysis.md`. Every computed slot matched the server-reported `final_slot` exactly, across all 10 client seeds and all 10 row/risk configurations covered by Phase D. This confirms:
 
 1. The client seed echoed in the API response is the actual seed used in the server's HMAC computation.
 2. The server did not substitute a different client seed after receiving the bet request.
 3. The seed rotation mechanism assigns a distinct client seed to each 50-bet epoch and uses it consistently throughout.
+
+[Evidence: E16]

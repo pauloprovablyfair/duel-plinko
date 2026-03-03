@@ -157,7 +157,7 @@ This is not evidence of manipulation. The multiplier tables are consistent with 
 
 **Zero Edge bets:** Players using Zero Edge mode receive payouts from the same multiplier table as standard users. The payout structure is identical for both groups at bracket 0 bet sizes.
 
-**Progressive house edge:** Players betting above approximately $336 per round (on the 16r/high configuration; thresholds differ by config) face a house edge above 0.1%, rising to a maximum of 2.0% at the highest bracket. This is not disclosed in the game UI based on this audit's review of the interface. Players at $0.01 to $335 on any configuration are in bracket 0 and face the standard 0.1% house edge.
+**Progressive house edge:** Players betting above approximately $336 per round (on the 16r/high configuration; thresholds differ by config) face a house edge above 0.1%, rising to a maximum of 2.0% at the highest bracket. This is not disclosed in the game UI based on this audit's review of the interface. Players at $0.01 to $335 on the 16r/high configuration (the most restrictive) are in bracket 0 and face the standard 0.1% house edge; all other configurations have higher bracket-0 ceilings.
 
 ---
 

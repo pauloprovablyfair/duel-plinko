@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-03-02T18:08:42.630Z",
+  "runAt": "2026-03-03T15:11:30.488Z",
   "dataset": {
     "bets": 7600,
     "seeds": 152,
@@ -7,11 +7,11 @@
     "phaseB": 2000,
     "phaseC": 200
   },
-  "verdict": "PROVABLY FAIR — Full Pass",
+  "verdict": "PROVABLY FAIR — with flags (investigate)",
   "summary": {
     "passed": 19,
     "hardFails": 0,
-    "flags": 0
+    "flags": 1
   },
   "results": [
     {
@@ -79,10 +79,16 @@
         "EC-4",
         "EC-5"
       ],
-      "severity": "PASS",
-      "pass": true,
-      "summary": "152 epochs: nonces sequential, single client_seed. 5 epochs have capture-retry pattern (informational — slot recomputation passes for all).",
-      "failures": [],
+      "severity": "FLAG",
+      "pass": false,
+      "summary": "152 epochs checked. 5 capture-retry epochs: missing nonces not independently confirmed. Slot recomputation passes for all captured bets.",
+      "failures": [
+        "Epoch 645b424d5b995f54: capture-retry pattern — nonce 43 missed (server placed 51 bets); slot recomputation passes",
+        "Epoch 91b453380f29025f: capture-retry pattern — nonce 10 missed (server placed 51 bets); slot recomputation passes",
+        "Epoch 358dd868189fb265: capture-retry pattern — nonce 45 missed (server placed 51 bets); slot recomputation passes",
+        "Epoch e1703ae848174c7a: capture-retry pattern — nonce 3 missed (server placed 51 bets); slot recomputation passes",
+        "Epoch d607aad19bd588aa: capture-retry pattern — nonce 44 missed (server placed 51 bets); slot recomputation passes"
+      ],
       "details": {
         "epochsChecked": 152,
         "captureArtifacts": [
@@ -926,35 +932,35 @@
         "referenceTable": "scaling_edge[0].multipliers",
         "configLoadTimestampPredatesBets": "Evidence records present; verify via loadConfig timestamp in state",
         "theoreticalRTPs": {
-          "8r/low": 0.999000001875,
-          "8r/medium": 0.9990000024218751,
-          "8r/high": 0.9990000007031249,
-          "9r/low": 0.9990000022265626,
-          "9r/medium": 0.9990000028906251,
-          "9r/high": 0.9990000010546874,
-          "10r/low": 0.9989999972460938,
-          "10r/medium": 0.9990000024609375,
-          "10r/high": 0.9990000003125001,
+          "8r/low": 0.999000001796875,
+          "8r/medium": 0.9990000015625001,
+          "8r/high": 0.9990000005468751,
+          "9r/low": 0.9990000021875001,
+          "9r/medium": 0.99900000234375,
+          "9r/high": 0.9990000005078125,
+          "10r/low": 0.9989999974804687,
+          "10r/medium": 0.9990000021679687,
+          "10r/high": 0.9990000002734376,
           "11r/low": 0.9989999994335936,
-          "11r/medium": 0.9990000023535156,
-          "11r/high": 0.9990000007031252,
-          "12r/low": 0.9990000005908204,
-          "12r/medium": 0.9990000008251954,
-          "12r/high": 0.9990000041552735,
+          "11r/medium": 0.9990000016503905,
+          "11r/high": 0.9990000005078125,
+          "12r/low": 0.9990000005859376,
+          "12r/medium": 0.9990000007519532,
+          "12r/high": 0.9990000011816407,
           "13r/low": 0.9989999999902343,
-          "13r/medium": 0.9990000001684571,
-          "13r/high": 0.9990000029541014,
+          "13r/medium": 0.9990000001660156,
+          "13r/high": 0.9990000011450194,
           "14r/low": 0.998999999506836,
-          "14r/medium": 0.9990000024584962,
-          "14r/high": 0.9990000014294433,
-          "15r/low": 0.9990000005279541,
-          "15r/medium": 0.9990000008007812,
-          "15r/high": 0.999000002380371,
-          "16r/low": 0.9989999989413452,
-          "16r/medium": 0.9989999974716187,
-          "16r/high": 0.9989999991876222
+          "14r/medium": 0.999000001706543,
+          "14r/high": 0.9990000004406738,
+          "15r/low": 0.9990000005273438,
+          "15r/medium": 0.9990000007232666,
+          "15r/high": 0.999000000333252,
+          "16r/low": 0.9989999989468383,
+          "16r/medium": 0.9989999983651733,
+          "16r/high": 0.9989999995104982
         },
-        "avgTheoreticalRTP": 0.9990000009285254
+        "avgTheoreticalRTP": 0.999000000531119
       }
     },
     {
@@ -967,14 +973,12 @@
       ],
       "severity": "PASS",
       "pass": true,
-      "summary": "Phase C slots recomputed (200/200), all multipliers in same table as Phase B, KS D=0.0695",
+      "summary": "Phase C: 200/200 slots recomputed correctly at $10, all multipliers match Phase B table. Equivalence proven deterministically.",
       "failures": [],
       "details": {
         "phaseCSlotRecomputed": 200,
         "phaseCSlotSkipped": 0,
-        "ksStat_BC": 0.06950000000000003,
-        "ksCritical_alpha005": 0.10086029942450102,
-        "ksInterpretation": "D=0.0695 < critical 0.1009 (α=0.05) — no significant difference"
+        "evidence": "Phase C equivalence is proven deterministically: slots recomputed correctly at $10 using the same HMAC-SHA256 path, and all multipliers match the same scaling_edge[0] table as Phase B. No distributional test is used — sample size (n=200) is too small for meaningful statistical comparison."
       }
     },
     {
@@ -988,7 +992,7 @@
       ],
       "severity": "PASS",
       "pass": true,
-      "summary": "Phase A RTP=96.671% | B=84.683% | C=119.000% — all within 5σ of 99.9%",
+      "summary": "Empirical RTP: A=96.671% B=84.683% C=119.000% (informational — RTP proven analytically via Step 20, EC-33).",
       "failures": [],
       "details": {
         "phaseA": {
@@ -1018,199 +1022,7 @@
           "totalWon": 2380.0027451000083,
           "rtpPct": "119.0001%"
         },
-        "perConfigRTP": {
-          "10r/low": {
-            "rtp": 1.0246913843000005,
-            "n": 200,
-            "zScore": 0.6830997804823482,
-            "theoreticalSE": 0.03761000227793865,
-            "pass": true
-          },
-          "9r/medium": {
-            "rtp": 1.0716459597000019,
-            "n": 200,
-            "zScore": 0.7960275202991316,
-            "theoreticalSE": 0.09126061329224264,
-            "pass": true
-          },
-          "14r/medium": {
-            "rtp": 0.8804839321999979,
-            "n": 200,
-            "zScore": -1.2191374929744616,
-            "theoreticalSE": 0.0972130448640749,
-            "pass": true
-          },
-          "16r/low": {
-            "rtp": 1.006581213049999,
-            "n": 200,
-            "zScore": 0.3200996898810772,
-            "theoreticalSE": 0.023683912511178885,
-            "pass": true
-          },
-          "11r/medium": {
-            "rtp": 1.0179317412500015,
-            "n": 200,
-            "zScore": 0.23786122753049432,
-            "theoreticalSE": 0.07959153934650585,
-            "pass": true
-          },
-          "12r/low": {
-            "rtp": 1.0128325361499984,
-            "n": 200,
-            "zScore": 0.49962886194838013,
-            "theoreticalSE": 0.027685622676112496,
-            "pass": true
-          },
-          "16r/medium": {
-            "rtp": 0.9360420395499983,
-            "n": 200,
-            "zScore": -0.601288422503916,
-            "theoreticalSE": 0.10470509341894348,
-            "pass": true
-          },
-          "14r/low": {
-            "rtp": 1.0368383517999984,
-            "n": 200,
-            "zScore": 1.6625429330539763,
-            "theoreticalSE": 0.022759323111429045,
-            "pass": true
-          },
-          "13r/medium": {
-            "rtp": 1.010496170533334,
-            "n": 150,
-            "zScore": 0.10291926645928953,
-            "theoreticalSE": 0.11170085960417678,
-            "pass": true
-          },
-          "10r/high": {
-            "rtp": 1.184429527149998,
-            "n": 200,
-            "zScore": 0.7135558129680926,
-            "theoreticalSE": 0.25986688606556096,
-            "pass": true
-          },
-          "14r/high": {
-            "rtp": 0.7302375462500011,
-            "n": 200,
-            "zScore": -0.675172593836299,
-            "theoreticalSE": 0.39806481513549474,
-            "pass": true
-          },
-          "8r/medium": {
-            "rtp": 0.9353038881000004,
-            "n": 200,
-            "zScore": -0.7204483988276571,
-            "theoreticalSE": 0.08841176134702843,
-            "pass": true
-          },
-          "11r/high": {
-            "rtp": 1.1533692587931035,
-            "n": 116,
-            "zScore": 0.39999103538238184,
-            "theoreticalSE": 0.38593179631021024,
-            "pass": true
-          },
-          "8r/high": {
-            "rtp": 1.0259341331333338,
-            "n": 150,
-            "zScore": 0.12249059884695511,
-            "theoreticalSE": 0.21988734961600157,
-            "pass": true
-          },
-          "15r/high": {
-            "rtp": 0.828073888977276,
-            "n": 264,
-            "zScore": -0.45843329036269587,
-            "theoreticalSE": 0.3728483829948158,
-            "pass": true
-          },
-          "16r/high": {
-            "rtp": 0.7961603750000046,
-            "n": 250,
-            "zScore": -0.48398759509546235,
-            "theoreticalSE": 0.41910087583956995,
-            "pass": true
-          },
-          "13r/high": {
-            "rtp": 0.6197104918666663,
-            "n": 150,
-            "zScore": -0.9506140754069412,
-            "theoreticalSE": 0.3989942058989254,
-            "pass": true
-          },
-          "12r/high": {
-            "rtp": 1.0187931838400084,
-            "n": 250,
-            "zScore": 0.070878894908471,
-            "theoreticalSE": 0.27925356152304837,
-            "pass": true
-          },
-          "10r/medium": {
-            "rtp": 0.9757057840999984,
-            "n": 200,
-            "zScore": -0.27054594943779803,
-            "theoreticalSE": 0.0861007749271708,
-            "pass": true
-          },
-          "9r/low": {
-            "rtp": 1.017324201149999,
-            "n": 200,
-            "zScore": 0.556836486952499,
-            "theoreticalSE": 0.032907687587581065,
-            "pass": true
-          },
-          "15r/low": {
-            "rtp": 0.9677098297999973,
-            "n": 200,
-            "zScore": -1.0694531203695135,
-            "theoreticalSE": 0.029258103608310968,
-            "pass": true
-          },
-          "8r/low": {
-            "rtp": 1.0136908998400052,
-            "n": 250,
-            "zScore": 0.41245193813099057,
-            "theoreticalSE": 0.03561845267736256,
-            "pass": true
-          },
-          "13r/low": {
-            "rtp": 1.0746924192499991,
-            "n": 200,
-            "zScore": 2.254821688168754,
-            "theoreticalSE": 0.03356913748309406,
-            "pass": true
-          },
-          "9r/high": {
-            "rtp": 1.0165218928999968,
-            "n": 200,
-            "zScore": 0.08347826187962509,
-            "theoreticalSE": 0.20989767282485172,
-            "pass": true
-          },
-          "11r/low": {
-            "rtp": 0.9419491969000017,
-            "n": 200,
-            "zScore": -1.810887802840081,
-            "theoreticalSE": 0.03150432788299942,
-            "pass": true
-          },
-          "12r/medium": {
-            "rtp": 0.8404577651075266,
-            "n": 186,
-            "zScore": -1.6638544960954194,
-            "theoreticalSE": 0.09528611742464606,
-            "pass": true
-          },
-          "15r/medium": {
-            "rtp": 1.0246318096153875,
-            "n": 234,
-            "zScore": 0.24924445245476132,
-            "theoreticalSE": 0.10283803455982526,
-            "pass": true
-          }
-        },
-        "configsFailed": 0,
-        "note": "Per-config z-scores use theoretical variance (not sample variance) per PLAN.md — required for high-variance configs where jackpots are rarely hit at N=150-200."
+        "note": "Empirical RTP is reported as informational context only — NOT as fairness evidence. At n=116–285 per config with multipliers up to 1009×, no sample-based RTP test has meaningful statistical power. RTP is proven analytically: independently verified binomial probabilities (Step 20, EC-33) × observed multiplier table = 99.900% for all 27 configurations."
       }
     },
     {
@@ -1268,165 +1080,165 @@
         "configs": 27,
         "results": {
           "10r/low": {
-            "chi2": 8.190614718614718,
-            "df": 8,
-            "pValue": 0.4152943037568785,
+            "chi2": 3.1258412698412696,
+            "df": 6,
+            "pValue": 0.7928948193349421,
             "n": 200
           },
           "9r/medium": {
-            "chi2": 10.041904761904762,
-            "df": 7,
-            "pValue": 0.18524500816687617,
+            "chi2": 6.004030365769497,
+            "df": 5,
+            "pValue": 0.3058269438577602,
             "n": 200
           },
           "14r/medium": {
             "chi2": 10.415041072402774,
             "df": 8,
-            "pValue": 0.23632329113157058,
+            "pValue": 0.23709479856828675,
             "n": 200
           },
           "16r/low": {
-            "chi2": 20.45132340638797,
-            "df": 10,
-            "pValue": 0.025245628659084973,
+            "chi2": 18.219917369876846,
+            "df": 8,
+            "pValue": 0.01963683109667358,
             "n": 200
           },
           "11r/medium": {
-            "chi2": 6.761558441558441,
-            "df": 9,
-            "pValue": 0.6632996431951266,
+            "chi2": 5.0606810105317575,
+            "df": 7,
+            "pValue": 0.6525580785692933,
             "n": 200
           },
           "12r/low": {
-            "chi2": 8.59795758671708,
-            "df": 8,
-            "pValue": 0.37730036917937926,
+            "chi2": 5.3083973417886465,
+            "df": 6,
+            "pValue": 0.5049099551728864,
             "n": 200
           },
           "16r/medium": {
-            "chi2": 9.466210947668623,
-            "df": 10,
-            "pValue": 0.48902113624807364,
+            "chi2": 9.301128705753259,
+            "df": 8,
+            "pValue": 0.3175334504815237,
             "n": 200
           },
           "14r/low": {
             "chi2": 11.16673329507372,
             "df": 8,
-            "pValue": 0.19156372963642676,
+            "pValue": 0.19242966513977455,
             "n": 200
           },
           "13r/medium": {
-            "chi2": 8.043525556569035,
-            "df": 9,
-            "pValue": 0.530609714634847,
+            "chi2": 7.54351327684661,
+            "df": 7,
+            "pValue": 0.37455947260477973,
             "n": 150
           },
           "10r/high": {
-            "chi2": 8.709448773448774,
-            "df": 8,
-            "pValue": 0.36729365432690864,
+            "chi2": 8.014222222222223,
+            "df": 6,
+            "pValue": 0.23706320047506568,
             "n": 200
           },
           "14r/high": {
             "chi2": 9.3153190072339,
             "df": 8,
-            "pValue": 0.31598358363555046,
+            "pValue": 0.3163982679294536,
             "n": 200
           },
           "8r/medium": {
-            "chi2": 5.421714285714286,
-            "df": 8,
-            "pValue": 0.7133016850437033,
+            "chi2": 3.14615873015873,
+            "df": 6,
+            "pValue": 0.7902915061341894,
             "n": 200
           },
           "11r/high": {
-            "chi2": 4.2832055575236225,
-            "df": 7,
-            "pValue": 0.7484124561002243,
+            "chi2": 3.537495560325525,
+            "df": 5,
+            "pValue": 0.6177218237004484,
             "n": 116
           },
           "8r/high": {
             "chi2": 8.160592592592593,
             "df": 6,
-            "pValue": 0.22559908436987985,
+            "pValue": 0.2265724507207837,
             "n": 150
           },
           "15r/high": {
-            "chi2": 8.258790367881277,
-            "df": 9,
-            "pValue": 0.5090146705316081,
+            "chi2": 6.411865639967369,
+            "df": 7,
+            "pValue": 0.49256255508323976,
             "n": 264
           },
           "16r/high": {
             "chi2": 7.364133740301773,
             "df": 12,
-            "pValue": 0.8334039197729456,
+            "pValue": 0.832642277393163,
             "n": 2450
           },
           "13r/high": {
-            "chi2": 9.369514633514633,
-            "df": 9,
-            "pValue": 0.4039776570383091,
+            "chi2": 7.463998914665581,
+            "df": 7,
+            "pValue": 0.38221613204964566,
             "n": 150
           },
           "12r/high": {
-            "chi2": 8.622264482072076,
-            "df": 8,
-            "pValue": 0.37510408280225405,
+            "chi2": 6.746053683514553,
+            "df": 6,
+            "pValue": 0.34497183387279917,
             "n": 250
           },
           "10r/medium": {
-            "chi2": 3.1282424242424245,
-            "df": 8,
-            "pValue": 0.9258819451610157,
+            "chi2": 2.217650793650794,
+            "df": 6,
+            "pValue": 0.8986325670604073,
             "n": 200
           },
           "9r/low": {
-            "chi2": 6.415238095238095,
-            "df": 7,
-            "pValue": 0.49308897082216174,
+            "chi2": 5.8154313319530715,
+            "df": 5,
+            "pValue": 0.3245945739555922,
             "n": 200
           },
           "15r/low": {
-            "chi2": 6.621012765012765,
-            "df": 9,
-            "pValue": 0.6779059332331214,
+            "chi2": 4.906341825785411,
+            "df": 7,
+            "pValue": 0.6713917290924143,
             "n": 200
           },
           "8r/low": {
-            "chi2": 7.861485714285715,
-            "df": 8,
-            "pValue": 0.44755685394506917,
+            "chi2": 4.903263492063492,
+            "df": 6,
+            "pValue": 0.5562789596256075,
             "n": 250
           },
           "13r/low": {
-            "chi2": 11.014916523090438,
-            "df": 9,
-            "pValue": 0.27410118238755643,
+            "chi2": 10.759106375106375,
+            "df": 7,
+            "pValue": 0.14947730715544305,
             "n": 200
           },
           "9r/high": {
-            "chi2": 8.142222222222223,
-            "df": 7,
-            "pValue": 0.3198205964246288,
+            "chi2": 5.409082125603865,
+            "df": 5,
+            "pValue": 0.3680183720423398,
             "n": 200
           },
           "11r/low": {
-            "chi2": 7.4264935064935065,
-            "df": 9,
-            "pValue": 0.5939580759560523,
+            "chi2": 6.881610648058409,
+            "df": 7,
+            "pValue": 0.4413098589595742,
             "n": 200
           },
           "12r/medium": {
-            "chi2": 5.550372141960545,
-            "df": 8,
-            "pValue": 0.6990581289988336,
+            "chi2": 3.15193746049286,
+            "df": 6,
+            "pValue": 0.7895497454393527,
             "n": 186
           },
           "15r/medium": {
-            "chi2": 13.904006345031988,
-            "df": 9,
-            "pValue": 0.12506210986161592,
+            "chi2": 11.982668928113386,
+            "df": 7,
+            "pValue": 0.10113025266621456,
             "n": 234
           }
         }
@@ -1609,6 +1421,25 @@
           "minEdge": "0.001",
           "maxEdge": "0.02"
         }
+      }
+    },
+    {
+      "step": 20,
+      "name": "Probability Independence (Anti-Circularity)",
+      "ecRefs": [
+        "EC-33"
+      ],
+      "severity": "PASS",
+      "pass": true,
+      "summary": "All 351 config probabilities exactly equal independent binomial. RTP cross-check: 27/27 match. Theoretical RTP proof is non-circular.",
+      "failures": [],
+      "details": {
+        "probabilitiesChecked": 351,
+        "probabilityMismatches": 0,
+        "rtpCrossChecks": 27,
+        "rtpMismatches": 0,
+        "method": "binomProb(rows, k) = C(rows,k) * 0.5^rows from stats.ts — not sourced from plinkoConfig.json",
+        "significance": "Breaks circularity: theoretical RTP is computed from independently verified probabilities × observed multipliers."
       }
     }
   ]

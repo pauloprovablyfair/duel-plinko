@@ -42,12 +42,17 @@ export class PlinkoConfig {
     return rows + 1;
   }
 
-  /** Theoretical RTP from payout_tables × probabilities. */
+  /** Theoretical RTP from independent binomial P(k) = C(rows,k) × 0.5^rows × scalingEdge bracket-0 multipliers.
+   *  Does NOT use cfg.probabilities() — independent of casino-supplied data. */
   theoreticalRTP(rows: number, risk: RiskLevel): number {
-    const probs = this.probabilities(rows, risk);
     let rtp = 0;
-    for (let slot = 0; slot < probs.length; slot++) {
-      rtp += probs[slot] * this.payoutTableMultiplier(rows, risk, slot);
+    for (let k = 0; k <= rows; k++) {
+      let coeff = 1;
+      for (let i = 0; i < Math.min(k, rows - k); i++) {
+        coeff = coeff * (rows - i) / (i + 1);
+      }
+      const p = coeff * Math.pow(0.5, rows);
+      rtp += p * this.scalingEdgeMultiplier(rows, risk, k);
     }
     return rtp;
   }

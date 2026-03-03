@@ -56,7 +56,6 @@ for (const { rows, risk } of configs) {
 
   const slotCount = rows + 1;
   const slotCounts = new Array(slotCount).fill(0);
-  const probs = cfg.probabilities(rows, risk);
   let totalPayout = 0;
 
   // Use fresh random server/client seeds per config
@@ -73,7 +72,15 @@ for (const { rows, risk } of configs) {
   const simulatedRTP = totalPayout / ROUNDS_PER_CONFIG;
   const theoreticalRTP = cfg.theoreticalRTP(rows, risk);
 
-  const expectedCounts = probs.map(p => p * ROUNDS_PER_CONFIG);
+  // Independent binomial expected counts — not from casino config
+  const expectedCounts: number[] = [];
+  for (let k = 0; k < slotCount; k++) {
+    let coeff = 1;
+    for (let i = 0; i < Math.min(k, rows - k); i++) {
+      coeff = coeff * (rows - i) / (i + 1);
+    }
+    expectedCounts.push(coeff * Math.pow(0.5, rows) * ROUNDS_PER_CONFIG);
+  }
   // chiSquaredTest handles pooling of bins with expected < 5 internally
   const { chi2, df, pValue } = chiSquaredTest([...slotCounts], expectedCounts);
 

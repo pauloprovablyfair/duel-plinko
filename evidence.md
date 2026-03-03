@@ -44,10 +44,10 @@ These screenshots were captured manually during the audit engagement and documen
 | ID | File | Description |
 |----|------|-------------|
 | E07 | results/merged/plinko-master.json | Master dataset: 7,600 bets, 152 seed entries (149 rotations + 3 pre-capture), SHA-256: 8382e45f8cdf4d439a8866669d15e6f4be543f4b926fb64c67e09d9da7d6b2db, size: 5,883,191 bytes |
-| E08 | outputs/verification-results.json | Verification output: 19/19 PASS, 0 hard fails, 0 flags. Verdict: PROVABLY FAIR — Full Pass |
+| E08 | outputs/verification-results.json | Verification output: 20 steps, 19 PASS, 1 FLAG (Step 4 — capture-retry nonce gaps), 0 hard fails. Verdict: PROVABLY FAIR — with flags |
 | E09 | outputs/determinism-log.json | Determinism log: 7,600 verified, 0 mismatches, 0 skipped |
-| E10 | outputs/simulation-results.json | Monte Carlo simulation: 27,000,000 rounds × 27 configs, avg RTP 99.890%, 0/27 chi-squared flags at α=0.01; 0/27 live-bet chi-squared fails |
-| E16 | results/plinko-phase-d.json | Phase D supplementary dataset: 500 bets, 11 seed entries (1 pre-capture + 10 rotations), 10/10 revealed seeds, 0 failed reveals, 10 distinct client seeds, all 27 configs, $0.01 bet amount, 500/500 slot recomputation pass; exportedAt: 2026-03-02T16:39:43.313Z |
+| E10 | outputs/simulation-results.json | Monte Carlo simulation: 27,000,000 rounds × 27 configs, avg RTP 99.890%, 0/27 chi-squared flags at α=0.01 |
+| E16 | results/plinko-phase-d.json | Phase D supplementary dataset: 500 bets, 11 seed entries (1 pre-capture + 10 rotations), 10/10 revealed seeds, 0 failed reveals, 10 distinct client seeds, 10 configs covered (8r/high, 9r/low, 10r/low, 10r/medium, 11r/medium, 12r/low, 12r/medium, 14r/low, 15r/medium, 16r/high), $0.01 bet amount, 500/500 slot recomputation pass; exportedAt: 2026-03-02T16:39:43.313Z |
 | E17 | outputs/chi-squared-results.json | Live-bet chi-squared goodness-of-fit: 27/27 configs pass at α=0.01; includes per-config χ² statistics, p-values, df, and slot frequency tables for all 7,600 bets |
 
 ## Configuration Source (E11)
@@ -61,7 +61,7 @@ These screenshots were captured manually during the audit engagement and documen
 | ID | File | Description |
 |----|------|-------------|
 | E12 | src/rng.ts | Independent HMAC-SHA256 RNG implementation. Key function: `computeSlot(serverSeed, clientSeed, nonce, rows)` — verified against duelplinko reference implementation |
-| E13 | tests/verify.ts | 19-step verification suite. Runs against E07, using E11 for config |
+| E13 | tests/verify.ts | 20-step verification suite. Runs against E07, using E11 for config |
 | E14 | src/simulate.ts | Monte Carlo simulation (1M rounds per config) |
 
 ## Reference Implementation (E15)

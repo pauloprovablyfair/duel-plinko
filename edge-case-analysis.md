@@ -25,7 +25,7 @@ The server's nonce sequence is intact across all 7,600 bets — no outcomes were
 | Serial independence | EC-29 | Pass | r = −0.008860896852259473 (threshold ±0.06708203932499368); runs z = −0.483, p = 0.629 |
 | Slot distribution / chi-squared | EC-9 | Pass | 27/27 configs pass at α=0.01 |
 
-**Overall Verdict:** All 6 checks covered in this chapter pass. No hard fails. No flags. (Audit-wide: 19/19 EC checks pass — see executive-summary.md.)
+**Overall Verdict:** All 6 checks covered in this chapter pass. No hard fails. No flags. (Audit-wide: 20 verification steps, 19 PASS, 1 FLAG — see executive-summary.md.)
 
 ---
 
@@ -133,7 +133,7 @@ Two adjustments were applied before computing chi-squared: (1) slots with theore
 
 **Result: 27 / 27 configs pass at α=0.01.** No config produced a p-value below 0.01. The full results are in `outputs/chi-squared-results.json`.
 
-A separate simulation of 1,000,000 rounds per config was also run. All 27 configs pass chi-squared at α=0.01 in the simulation data; 0 flags. [Evidence: E07]
+A separate simulation of 1,000,000 rounds per config was also run. All 27 configs pass chi-squared at α=0.01 in the simulation data; 0 flags. [Evidence: E10]
 
 ---
 

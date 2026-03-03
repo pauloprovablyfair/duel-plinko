@@ -24,7 +24,7 @@ Six criteria carry automatic-fail weight. All six passed.
 | EC-5 | Client seed stable | 152/152 epochs: single client_seed throughout each epoch |
 | EC-7 | Slot recomputation | 7,600/7,600 bets: HMAC-SHA256 recompute matches recorded slot exactly |
 | EC-26 | Hash stable within epoch | 152/152 epochs: serverSeedHashed unchanged across all 50 bets |
-| EC-27 | Client seed actually used | 6,409/7,600 slots (84.3%) changed outcome when an incorrect client seed was substituted across all 152 epochs |
+| EC-27 | Client seed actually used | 6,409/7,600 slots (84.3%) changed outcome when an incorrect client seed was substituted across all 152 epochs; additionally confirmed by Phase D: 500/500 bets recomputed correctly across 10 distinct client seeds [Evidence: E16] |
 
 No hard-fail criterion was triggered.
 
@@ -50,11 +50,13 @@ No hard-fail criterion was triggered.
 
 | Metric | Value |
 |--------|-------|
-| Total bets captured | 7,600 |
-| Bets verified (recomputed) | 7,600 |
-| Mismatches | 0 |
-| Seed entries (149 rotations + 3 pre-capture) | 152 |
+| Primary bets captured | 7,600 (Phase A: 5,400 · Phase B: 2,000 · Phase C: 200) |
+| Supplementary bets (Phase D) | 500 (client seed verification — 10 configs, 10 client seeds) |
+| Bets verified (recomputed) | 7,600 / 7,600 (primary) · 500 / 500 (Phase D) — 0 mismatches |
+| Seed entries (primary) | 152 (149 rotations + 3 pre-capture commitments — all 152 revealed) |
+| Seed entries (Phase D) | 11 (10 rotations + 1 pre-capture commitment — all 10 revealed) |
 | Dataset SHA-256 | `8382e45f8cdf4d439a8866669d15e6f4be543f4b926fb64c67e09d9da7d6b2db` |
+| Phase D dataset | `results/plinko-phase-d.json` [Evidence: E16] |
 
 ---
 
